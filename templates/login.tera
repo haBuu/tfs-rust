@@ -1,0 +1,18 @@
+{% extends "base" %}
+{% block content %}
+  <div class="container mt-3">
+    <form method="post" action="login">
+      <fieldset class="form-group">
+        <label>Nimi</label>
+        <input type="text" name="username" class="form-control" placeholder="Nimi">
+      </fieldset>
+      <fieldset class="form-group">
+        <label>Salasana</label>
+        <input type="password" name="password" class="form-control" placeholder="Salasana">
+      </fieldset>
+      <fieldset class="form-group">
+        <button type="submit" class="btn btn-light btn-block">Kirjaudu</button>
+      </fieldset>
+    </form>
+  </div>
+{% endblock content %}

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="/files/css/style.css" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:100,200,300,400,600,900" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato%3A400%2C700%2C400italic%2C700italic&subset=latin%2Clatin-ext&ver=4.2-RC4-32277" rel="stylesheet" type="text/css">
+  <title>Tampereen Frisbeeseura</title>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-faded fixed-top">
+
+    <a class="navbar-brand" href="/">Tampereen Frisbeeseura</a>
+
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-md-center" id="navbar">
+      <div class="navbar-nav">
+        {% for page in top_level_pages %}
+          <a class="nav-item nav-link" href=/{{ page.name | lower }}>{{ page.name }}</a>
+        {% endfor %}
+        {% if user.admin or user.superadmin %}
+          <a class="nav-item nav-link" href="/admin">Hallinta</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  {% block banner %}{% endblock banner %}
+
+  <div id="content">{% block content %}{% endblock content %}</div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  {% block scripts %}{% endblock scripts %}
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends "base" %}
+{% block content %}
+  <div class="container">
+
+    <a href="/admin/users" class="my-3 btn btn-light btn-block">Takaisin</a>
+
+    <form class="mt-3" method="post" action="/admin/user/{{ user_edit.id }}">
+      <div class="form-group">
+        <label for="name">Nimi</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Nimi" value={{ user_edit.name }} required>
+      </div>
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="admin" name="admin" {% if user_edit.admin %}checked{% endif %}>
+        <label class="custom-control-label" for="admin">Ylläpitäjä</label>
+      </div>
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="superadmin" name="superadmin" {% if user_edit.superadmin %}checked{% endif %}>
+        <label class="custom-control-label" for="superadmin">Pääylläpitäjä</label>
+      </div>
+      <button type="submit" class="mt-3 btn btn-light btn-block">Tallenna</button>
+    </form>
+
+    <form method="post" action="/admin/user/remove/{{ user_edit.id }}">
+      <button type="submit" class="my-3 btn btn-light btn-block">Poista</button>
+    </form>
+
+  </div>
+{% endblock content %}

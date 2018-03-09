@@ -1,0 +1,52 @@
+{% extends "base" %}
+{% block content %}
+  <div class="container">
+
+    <a href="/admin/pages" class="my-3 btn btn-light btn-block">Takaisin</a>
+
+    {% include "page-form" %}
+
+    {% if page.removed %}
+      <form method="post" action="/admin/page/restore/{{ page.id }}">
+        <button type="submit" class="mb-3 btn btn-light btn-block">Palauta sivu</button>
+      </form>
+    {% else %}
+      <form method="post" action="/admin/page/remove/{{ page.id }}">
+        <button type="submit" class="mb-3 btn btn-light btn-block">Poista sivu</button>
+      </form>
+    {% endif %}
+
+    <form method="post" action="/admin/page/content/{{ page.id }}">
+      <div class="form-group">
+        <textarea class="form-control" id="markdown" name="content" rows=20 required oninput="this.editor.update()">{% if content %} {{ content.content }} {% endif %}</textarea>
+      </div>
+      <div class="form-group">
+        <button id="save" type="submit" class="mt-3 btn btn-light btn-block">Tallenna uusi sisältö</button>
+      </div>
+    </form>
+
+    {% include "markdown-preview" %}
+
+    <div class="mt-3 card">
+      <div class="card-header">
+        Versiohistoria
+      </div>
+      <div class="list-group list-group-flush">
+        {% for version in versions %}
+          <a href="/admin/page/{{ version.page_id }}/{{ version.id }}" class="list-group-item list-group-item-action flex-column align-items-start">
+            <p class="mb-0">Versio {{ version.version }}</p>
+            <small class="text-muted">
+              {{ version.created | date(format="%d.%m.%Y %H:%M") }}
+            </small>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+{% endblock content %}
+{% block scripts %}
+  <script src="/files/js/markdown.js"></script>
+  <script src="/files/js/markdown-preview.js"></script>
+  <script src="/files/js/image.js"></script>
+{% endblock scripts %}

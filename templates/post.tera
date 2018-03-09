@@ -1,0 +1,24 @@
+{% extends "base" %}
+{% block banner %}
+{% include "banner" %}
+{% endblock banner %}
+{% block content %}
+  <div class="container">
+
+    <div class="posts my-3">
+      <div class="post mb-2">
+        <h2 class="post-title">{{ post.title }}</h2>
+        <small class="post-created text-muted">
+          {{ post.created | date(format="%d.%m.%Y %H:%M") }}
+          {%- if post.modified -%}
+            , muokattu {{ post.modified | date(format="%d.%m.%Y %H:%M") }}
+          {% endif %}
+        </small>
+        <div class="mt-1">
+          {{ post.content | markdown }}
+        </div>
+      </div>
+    </div>
+
+  </div>
+{% endblock content %}

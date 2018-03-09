@@ -1,0 +1,15 @@
+CREATE TABLE users (
+  id INTEGER AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  admin BOOLEAN NOT NULL DEFAULT 0,
+  superadmin BOOLEAN NOT NULL DEFAULT 0,
+  created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO users (name, password, admin, superadmin)
+VALUES (
+  'admin',
+  '$argon2i$m=4096,t=3,p=1$SEImLu8+/kRsmfmY3APcLA$ZOWV6MSziAJONF83m4D8Nw719C24tPytBCoIELaVeaM',
+  1, 1
+);

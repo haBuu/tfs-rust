@@ -1,0 +1,17 @@
+<form class="mt-3" method="post" action="/admin/page{% if page %}/{{ page.id }}{% endif %}">
+  <div class="form-group">
+    <label class="control-label">Nimi</label>
+    <input type="text" name="name" class="form-control" id="name" placeholder="Nimi" {% if page %}value="{{ page.name }}"{% endif %} required>
+  </div>
+  <div class="form-group">
+    <label for="rank">Järjestys</label>
+    <input type="number" class="form-control" id="rank" name="rank" placeholder="Järjestys" value="{% if page %}{{ page.rank }}{% else %}0{% endif %}" required>
+  </div>
+  <div class="custom-control custom-checkbox">
+    <input type="checkbox" class="custom-control-input" id="top_level" name="top_level" {% if page.top_level %}checked{% endif %}>
+    <label class="custom-control-label" for="top_level">Pääsivu</label>
+  </div>
+  <div class="form-group mt-3">
+    <input type=submit class="btn btn-light btn-block" value="Tallenna">
+  </div>
+</form>

@@ -1,0 +1,63 @@
+body {
+  font-family: Lato, "Source Sans Pro", Arial, sans-serif;
+  padding-top: 56px;
+}
+
+nav.navbar {
+  background-color: #ffffff;
+  box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.1);
+}
+
+a.nav-link {
+  color: #333 !important;
+  margin-right: 20px;
+}
+
+div#banner {
+  background: url("/files/img/hiedanranta3.jpg") center top;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.banner {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.logo {
+  height: 280px;
+  position: absolute;
+  top: 10px;
+  left: 20px;
+}
+
+div#members table thead th {
+  text-align: center;
+}
+
+.pagination {
+  text-align: center;
+}
+
+div.post img, div#partners img, div#preview img {
+  max-width: 100%;
+  height: auto;
+}
+
+h2.post-title {
+  word-wrap: break-word;
+  word-break: hyphenate;
+}
+
+.small-image {
+  max-height: 60px;
+}
+
+a.post-link, a.bagtag-link {
+  text-decoration: none;
+  color: inherit;
+}

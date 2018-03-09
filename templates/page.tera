@@ -1,0 +1,13 @@
+{% extends "base" %}
+{% block banner %}
+{% include "banner" %}
+{% endblock banner %}
+{% block content %}
+  <div class="container">
+    <div id="content" class="my-3">
+      {% if page_content %}
+        {{ page_content.content | markdown }}
+      {% endif %}
+    </div>
+  </div>
+{% endblock content %}
