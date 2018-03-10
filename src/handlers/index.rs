@@ -10,7 +10,7 @@ use schema::pages;
 use db::DB;
 use helpers::*;
 
-// Home many posts get displayed at once
+// Home many posts gets displayed at once
 const POSTS_PER_PAGE: i64 = 5;
 
 #[get("/")]
