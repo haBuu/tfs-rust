@@ -1,6 +1,8 @@
 language: rust
 cache: cargo
 env:
-  - DATABASE_URL=""
+  - DATABASE_URL="mysql://127.0.0.1"
 rust:
   - nightly
+services:
+  - mysql
