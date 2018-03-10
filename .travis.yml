@@ -1,4 +1,6 @@
 language: rust
 cache: cargo
+env:
+  - DATABASE_URL=""
 rust:
   - nightly
