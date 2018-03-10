@@ -2,7 +2,6 @@ use rocket::request::Form;
 use rocket::response::Redirect;
 use rocket_contrib::Template;
 use diesel::prelude::*;
-use diesel::dsl::*;
 use diesel::{insert_into, update};
 
 use db::DB;
@@ -10,7 +9,6 @@ use models::User;
 use models::Page;
 use models::Content;
 use schema::pages;
-use schema::contents;
 use handlers::admin::Admin;
 use models::page::*;
 
@@ -94,7 +92,7 @@ pub fn new_page(user: Admin, conn: DB, form: Form<PageForm>) -> Redirect {
 }
 
 #[post("/admin/page/<page_id>", data = "<form>")]
-pub fn edit_page(page_id: i32, user: Admin, conn: DB, form: Form<PageForm>) -> Redirect {
+pub fn edit_page(page_id: i32, _user: Admin, conn: DB, form: Form<PageForm>) -> Redirect {
   use schema::pages::dsl::*;
   let page_form = form.get();
   update(pages.find(page_id))

@@ -6,8 +6,6 @@ use schema::contents::dsl::*;
 use models::Page;
 use models::Content;
 
-use diesel::result::Error;
-
 pub fn get_top_level_pages(conn: &MysqlConnection) -> Vec<Page> {
   pages
     .filter(top_level.eq(true))

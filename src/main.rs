@@ -98,31 +98,23 @@ mod test {
   use rocket::http::Status;
 
   #[test]
-  fn public_root() {
+  fn smoke_test() {
     let client = Client::new(rocket()).unwrap();
-    let response = client.get("/").dispatch();
-    assert_eq!(response.status(), Status::Ok);
-  }
 
-  #[test]
-  fn admin_root_no_login() {
-    let client = Client::new(rocket()).unwrap();
-    let response = client.get("/admin").dispatch();
+    // public root
+    let mut response = client.get("/").dispatch();
+    assert_eq!(response.status(), Status::Ok);
+
+    // admin root
+    response = client.get("/admin").dispatch();
     assert_eq!(response.status(), Status::SeeOther);
-  }
 
-  #[test]
-  fn static_file_style() {
-    let client = Client::new(rocket()).unwrap();
-    let response = client.get("/files/css/style.css").dispatch();
+    // static file style
+    response = client.get("/files/css/style.css").dispatch();
     assert_eq!(response.status(), Status::Ok);
-  }
 
-  #[test]
-  fn static_file_style_not_found() {
-    let client = Client::new(rocket()).unwrap();
-    let response = client.get("/files/css/style2.css").dispatch();
+    // static file style not found
+    response = client.get("/files/css/style2.css").dispatch();
     assert_eq!(response.status(), Status::NotFound);
   }
-
 }

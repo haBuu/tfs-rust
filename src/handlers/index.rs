@@ -1,12 +1,10 @@
 use rocket_contrib::Template;
 use diesel::prelude::*;
 use diesel::dsl::count;
-use chrono::prelude::*;
 
 use metrix::get_player_data;
 use models::*;
 use schema::posts;
-use schema::pages;
 use db::DB;
 use helpers::*;
 

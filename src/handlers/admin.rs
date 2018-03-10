@@ -5,19 +5,17 @@ use rocket::http::{Cookie, Cookies, Status};
 use rocket::response::Redirect;
 use rocket::outcome::IntoOutcome;
 
-use chrono::prelude::*;
-
-use models::Page;
-use models::User;
 use diesel::prelude::*;
+
+use argon2rs::verifier::Encoded;
+
+use models::User;
 use schema::users::dsl::users;
-use schema::pages;
 use helpers::*;
 
 use db::Pool;
 use db::DB;
 
-use argon2rs::verifier::Encoded;
 
 pub fn find_user(conn: DB, id: i32) -> Option<User> {
   users.find(id).first::<User>(&*conn).ok()

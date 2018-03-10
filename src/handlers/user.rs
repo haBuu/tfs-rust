@@ -6,15 +6,12 @@ use diesel::prelude::*;
 use diesel::insert_into;
 use diesel::{update, delete};
 
-use argon2rs;
 use argon2rs::verifier::Encoded;
 use rand::{self, Rng};
 
 use db::DB;
 use models::User;
-use models::Page;
 use schema::users;
-use schema::pages;
 use handlers::admin::SuperAdmin;
 use helpers::*;
 
@@ -57,7 +54,7 @@ pub struct EditUser {
 }
 
 #[post("/admin/user/add", data = "<new_user>")]
-pub fn new_user(user: SuperAdmin, conn: DB, new_user: Form<NewUser>) -> Redirect {
+pub fn new_user(_user: SuperAdmin, conn: DB, new_user: Form<NewUser>) -> Redirect {
   use schema::users::dsl::*;
 
   let form = new_user.get();
@@ -73,23 +70,28 @@ pub fn new_user(user: SuperAdmin, conn: DB, new_user: Form<NewUser>) -> Redirect
     .values(&user)
     .execute(&*conn)
     .expect("Error inserting user");
+
   Redirect::to("/admin/users")
 }
 
 #[post("/admin/user/<user_id>", data = "<form>")]
-pub fn edit_user(user_id: i32, user: SuperAdmin, conn: DB, form: Form<EditUser>) -> Redirect {
+pub fn edit_user(user_id: i32, _user: SuperAdmin, conn: DB, form: Form<EditUser>) -> Redirect {
   use schema::users::dsl::*;
+
   update(users.filter(id.eq(user_id)))
     .set(form.get())
     .execute(&*conn)
     .expect("Error updating user");
+
   Redirect::to("/admin/users")
 }
 
 #[post("/admin/user/remove/<user_id>")]
-pub fn remove_user(user_id: i32, user: SuperAdmin, conn: DB) -> Redirect {
+pub fn remove_user(user_id: i32, _user: SuperAdmin, conn: DB) -> Redirect {
   use schema::users::dsl::*;
-  delete(users.filter(id.eq(user_id))).execute(&*conn);
+
+  delete(users.filter(id.eq(user_id))).execute(&*conn).expect("Error deleting user");
+
   Redirect::to("/admin/users")
 }
 

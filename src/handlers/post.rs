@@ -2,12 +2,11 @@ use rocket::request::Form;
 use rocket::response::Redirect;
 use rocket_contrib::Template;
 use diesel::prelude::*;
-use diesel::dsl::*;
 use diesel::{insert_into, delete, update};
 
 use db::DB;
-use models::{Post, Page};
-use schema::{posts, pages};
+use models::Post;
+use schema::posts;
 use handlers::admin::Admin;
 use helpers::*;
 
@@ -62,9 +61,9 @@ pub fn get_post(post_id: i32, user: Admin, conn: DB) -> Template {
 }
 
 #[post("/admin/post/remove/<post_id>")]
-pub fn remove_post(post_id: i32, user: Admin, conn: DB) -> Redirect {
+pub fn remove_post(post_id: i32, _user: Admin, conn: DB) -> Redirect {
   use schema::posts::dsl::*;
-  delete(posts.filter(id.eq(post_id))).execute(&*conn);
+  delete(posts.filter(id.eq(post_id))).execute(&*conn).expect("Error deleting post");
   Redirect::to("/admin/posts")
 }
 
