@@ -12,7 +12,7 @@ use rocket::{Request, State, Outcome};
 pub type Pool = r2d2::Pool<ConnectionManager<MysqlConnection>>;
 
 // The URL to the database, set via the `DATABASE_URL` environment variable.
-static DATABASE_URL: &'static str = "mysql://root:mariadbrootpassu%3F123@localhost:3306/tfs_rust";
+static DATABASE_URL: &'static str = env!("DATABASE_URL");
 
 // Connection request guard type: a wrapper around an r2d2 pooled connection.
 pub struct DB(pub r2d2::PooledConnection<ConnectionManager<MysqlConnection >>);
