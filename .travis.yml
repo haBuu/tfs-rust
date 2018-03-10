@@ -6,3 +6,5 @@ rust:
   - nightly
 services:
   - mysql
+before_script:
+- mysql -u root -e 'CREATE DATABASE tfs;'
