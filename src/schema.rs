@@ -6,6 +6,7 @@ table! {
         content -> Text,
         version -> Integer,
         created -> Datetime,
+        comment -> Nullable<Text>,
     }
 }
 

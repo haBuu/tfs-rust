@@ -1,5 +1,5 @@
 use tera::{Result, Value, to_value, try_get_value, Context};
-use pulldown_cmark::{html, Parser};
+use pulldown_cmark::{html, Parser, OPTION_ENABLE_TABLES};
 use std::collections::HashMap;
 
 use db::DB;
@@ -18,7 +18,7 @@ pub fn default_context(conn: DB, user: Option<User>) -> Context {
 // Tera filter to convert Markdown to HTML
 pub fn markdown_filter(value: Value, _: HashMap<String, Value>) -> Result<Value> {
   let s = try_get_value!("markdown", "value", String, value);
-  let parser = Parser::new(s.as_str());
+  let parser = Parser::new_ext(s.as_str(), OPTION_ENABLE_TABLES);
   let mut html_buf = String::new();
   html::push_html(&mut html_buf, parser);
   Ok(to_value(html_buf).unwrap())

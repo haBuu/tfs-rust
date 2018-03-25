@@ -104,7 +104,8 @@ pub fn edit_page(page_id: i32, _user: Admin, conn: DB, form: Form<PageForm>) -> 
 
 #[derive(FromForm, Debug)]
 pub struct ContentForm {
-  content: String
+  content: String,
+  comment: Option<String>,
 }
 
 #[post("/admin/page/content/<page>", data = "<form>")]
@@ -125,6 +126,7 @@ pub fn new_content(page: i32, user: Admin, conn: DB, form: Form<ContentForm>) ->
       page_id.eq(&page),
       user_id.eq(user.0.id),
       content.eq(&content_form.content),
+      comment.eq(&content_form.comment),
       version.eq(current_version + 1),
     ))
     .execute(&*conn)

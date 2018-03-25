@@ -26,12 +26,12 @@ use rocket::response::NamedFile;
 use std::path::{Path, PathBuf};
 use std::io::stdout;
 
-pub mod db;
-pub mod schema;
-pub mod models;
-pub mod metrix;
-pub mod handlers;
-pub mod helpers;
+mod db;
+mod schema;
+mod models;
+mod metrix;
+mod handlers;
+mod helpers;
 
 use handlers::*;
 use helpers::*;

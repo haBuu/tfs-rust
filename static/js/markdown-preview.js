@@ -2,7 +2,10 @@
 
   function Editor(input, preview) {
     this.update = function () {
-        preview.innerHTML = markdown.toHTML(input.value);
+      var reader = new commonmark.Parser();
+      var writer = new commonmark.HtmlRenderer();
+      var parsed = reader.parse(input.value);
+      preview.innerHTML = writer.render(parsed);
     };
     input.editor = this;
     this.update();

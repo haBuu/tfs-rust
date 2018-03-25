@@ -1,25 +1,36 @@
 {% extends "base" %}
 {% block content %}
-  <div class="container">
-    <a href=/admin class="mt-3 btn btn-light btn-block">Takaisin</a>
-    <form class="mt-3" method="post" action="/admin/post/add">
-      <div class="form-group">
-        <label for="title">Otsikko</label>
-        <input type="text" name="title" class="form-control" id="title" placeholder="Otsikko">
+  <div class="container-fluid">
+    <a href=/admin class="my-3 btn btn-light btn-block">Takaisin</a>
+
+    <div class="row">
+
+      <div class="col">
+        <form method="post" action="/admin/post/add">
+          <div class="form-group">
+            <label for="title">Otsikko</label>
+            <input type="text" name="title" class="form-control" id="title" placeholder="Otsikko" required>
+          </div>
+          <div class="form-group">
+            <label for="content">Uutinen</label>
+            <textarea class="form-control" id="markdown" name="content" placeholder="Uutinen" rows=20 required oninput="this.editor.update()"></textarea>
+          </div>
+          <div class="form-group">
+            <button id="save" type="submit" class="mt-3 btn btn-light btn-block">Lisää uutinen</button>
+          </div>
+        </form>
       </div>
-      <div class="form-group">
-        <label for="content">Uutinen</label>
-        <textarea class="form-control" id="markdown" name="content" placeholder="Uutinen" rows=20 required oninput="this.editor.update()"></textarea>
+
+      <div class="col">
+        {% include "markdown-preview" %}
       </div>
-      <div class="form-group">
-        <button id="save" type="submit" class="mt-3 btn btn-light btn-block">Lisää uutinen</button>
-      </div>
-    </form>
-    {% include "markdown-preview" %}
+
+    </div>
+
   </div>
 {% endblock content %}
 {% block scripts %}
-  <script src="/files/js/markdown.js"></script>
+  <script src="/files/js/commonmark.min.js"></script>
   <script src="/files/js/markdown-preview.js"></script>
   <script src="/files/js/image.js"></script>
 {% endblock scripts %}

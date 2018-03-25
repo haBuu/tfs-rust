@@ -5,5 +5,6 @@ CREATE TABLE contents (
   content TEXT NOT NULL,
   version INTEGER NOT NULL,
   created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  UNIQUE (version)
+  comment TEXT,
+  UNIQUE (page_id, version)
 );

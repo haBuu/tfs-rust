@@ -51,5 +51,6 @@ pub struct Content {
   pub user_id: i32,
   pub content: String,
   pub version: i32,
-  pub created: NaiveDateTime
+  pub created: NaiveDateTime,
+  pub comment: Option<String>
 }
