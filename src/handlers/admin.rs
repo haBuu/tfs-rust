@@ -4,6 +4,7 @@ use rocket_contrib::Template;
 use rocket::http::{Cookie, Cookies, Status};
 use rocket::response::Redirect;
 use rocket::outcome::IntoOutcome;
+use rocket::outcome::Outcome::*;
 
 use diesel::prelude::*;
 
@@ -25,13 +26,7 @@ impl<'a, 'r> FromRequest<'a, 'r> for User {
   type Error = ();
 
   fn from_request(request: &'a Request<'r>) -> request::Outcome<User, ()> {
-
-    let pool = request.guard::<State<Pool>>()?;
-    let conn = match pool.get() {
-      Ok(c) => DB(c),
-      Err(_) => return Outcome::Failure((Status::ServiceUnavailable, ()))
-    };
-
+    let conn = request.guard::<DB>()?;
     request.cookies()
       .get_private("user_id")
       .and_then(|cookie| cookie.value().parse::<i32>().ok())
@@ -47,13 +42,7 @@ impl<'a, 'r> FromRequest<'a, 'r> for Admin {
   type Error = ();
 
   fn from_request(request: &'a Request<'r>) -> request::Outcome<Admin, ()> {
-
-    let pool = request.guard::<State<Pool>>()?;
-    let conn = match pool.get() {
-      Ok(c) => DB(c),
-      Err(_) => return Outcome::Failure((Status::ServiceUnavailable, ()))
-    };
-
+    let conn = request.guard::<DB>()?;
     request.cookies()
       .get_private("user_id")
       .and_then(|cookie| cookie.value().parse::<i32>().ok())
@@ -70,13 +59,7 @@ impl<'a, 'r> FromRequest<'a, 'r> for SuperAdmin {
   type Error = ();
 
   fn from_request(request: &'a Request<'r>) -> request::Outcome<SuperAdmin, ()> {
-
-    let pool = request.guard::<State<Pool>>()?;
-    let conn = match pool.get() {
-      Ok(c) => DB(c),
-      Err(_) => return Outcome::Failure((Status::ServiceUnavailable, ()))
-    };
-
+    let conn = request.guard::<DB>()?;
     request.cookies()
       .get_private("user_id")
       .and_then(|cookie| cookie.value().parse::<i32>().ok())
