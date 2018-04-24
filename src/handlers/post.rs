@@ -17,21 +17,20 @@ pub struct PostForm {
 }
 
 #[get("/admin/posts")]
-pub fn posts(user: Admin, conn: DB) -> Template {
+pub fn posts(_user: Admin, conn: DB, ctx: DefaultContext) -> Template {
   use schema::posts::dsl::created;
   let posts = posts::table
     .order(created.desc())
     .load::<Post>(&*conn)
     .unwrap_or(vec![]);
-  let mut context = default_context(conn, Some(user.0));
+  let mut context = ctx.0;
   context.add("posts", &posts);
   Template::render("posts", &context)
 }
 
 #[get("/admin/post/add")]
-pub fn add_post(user: Admin, conn: DB) -> Template {
-  let context = default_context(conn, Some(user.0));
-  Template::render("add-post", &context)
+pub fn add_post(_user: Admin, ctx: DefaultContext) -> Template {
+  Template::render("add-post", &ctx.0)
 }
 
 #[post("/admin/post/add", data = "<form>")]
@@ -50,12 +49,12 @@ pub fn new_post(user: Admin, conn: DB, form: Form<PostForm>) -> Redirect {
 }
 
 #[get("/admin/post/<post_id>")]
-pub fn get_post(post_id: i32, user: Admin, conn: DB) -> Template {
+pub fn get_post(post_id: i32, _user: Admin, conn: DB, ctx: DefaultContext) -> Template {
   let post = posts::table
     .find(post_id)
     .first::<Post>(&*conn)
     .expect("Error finding post");
-  let mut context = default_context(conn, Some(user.0));
+  let mut context = ctx.0;
   context.add("post", &post);
   Template::render("edit-post", &context)
 }

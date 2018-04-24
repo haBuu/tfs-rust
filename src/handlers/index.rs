@@ -8,31 +8,32 @@ use schema::posts;
 use db::DB;
 use helpers::*;
 
+
 // Home many posts gets displayed at once
 const POSTS_PER_PAGE: i64 = 5;
 
 #[get("/")]
-pub fn index(user: Option<User>, conn: DB) -> Template {
-  post_page(user, conn, 1)
+pub fn index(ctx: DefaultContext, conn: DB) -> Template {
+  post_page(ctx, conn, 1)
 }
 
 #[get("/posts/<page_number>")]
-pub fn index_page(page_number: i64, user: Option<User>, conn: DB) -> Template {
-  post_page(user, conn, page_number)
+pub fn index_page(ctx: DefaultContext, page_number: i64, conn: DB) -> Template {
+  post_page(ctx, conn, page_number)
 }
 
 #[get("/post/<post_id>")]
-pub fn get_one_post(post_id: i32, user: Option<User>, conn: DB) -> Template {
+pub fn get_one_post(post_id: i32, conn: DB, ctx: DefaultContext) -> Template {
   let post = posts::table
     .find(post_id)
     .first::<Post>(&*conn)
     .ok();
-  let mut context = default_context(conn, user);
+  let mut context = ctx.0;
   context.add("post", &post);
   Template::render("post", &context)
 }
 
-fn post_page(user: Option<User>, conn: DB, page_number: i64) -> Template {
+fn post_page(ctx: DefaultContext, conn: DB, page_number: i64) -> Template {
   use schema::posts::dsl::id;
   use schema::posts::dsl::created;
 
@@ -56,7 +57,7 @@ fn post_page(user: Option<User>, conn: DB, page_number: i64) -> Template {
   // Count how many post pages we have in total
   let page_count = (posts_count as f64 / POSTS_PER_PAGE as f64).ceil() as i64;
 
-  let mut context = default_context(conn, user);
+  let mut context = ctx.0;
   context.add("players", &players);
   context.add("posts", &posts);
   context.add("page_count", &page_count);

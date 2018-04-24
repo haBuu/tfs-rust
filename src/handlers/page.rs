@@ -5,7 +5,6 @@ use diesel::prelude::*;
 use diesel::{insert_into, update};
 
 use db::DB;
-use models::User;
 use models::Page;
 use models::Content;
 use schema::pages;
@@ -23,24 +22,24 @@ pub struct PageForm {
 }
 
 #[get("/<page_name>", rank = 3)]
-pub fn page(page_name: String, user: Option<User>, conn: DB) -> Template {
+pub fn page(page_name: String, conn: DB, ctx: DefaultContext) -> Template {
   let page_content = get_page_content_by_name(&conn, page_name);
-  let mut context = default_context(conn, user);
+  let mut context = ctx.0;
   context.add("page_content", &page_content);
   Template::render("page", &context)
 }
 
 #[get("/admin/pages")]
-pub fn get_pages(user: Admin, conn: DB) -> Template {
+pub fn get_pages(_user: Admin, conn: DB, ctx: DefaultContext) -> Template {
   let other_pages = get_other_pages(&conn);
   let removed_pages = get_removed_pages(&conn);
-  let mut context = default_context(conn, Some(user.0));
+  let mut context = ctx.0;
   context.add("other_pages", &other_pages);
   context.add("removed_pages", &removed_pages);
   Template::render("pages", &context)
 }
 
-fn get_page(page: i32, content_id: Option<i32>, user: Admin, conn: DB) -> Template {
+fn get_page(page: i32, content_id: Option<i32>, conn: DB, ctx: DefaultContext) -> Template {
   use schema::pages::dsl::pages;
   use schema::contents::dsl::contents;
   use schema::contents::dsl::version;
@@ -58,7 +57,7 @@ fn get_page(page: i32, content_id: Option<i32>, user: Admin, conn: DB) -> Templa
     .load::<Content>(&*conn)
     .unwrap_or(vec![]);
 
-  let mut context = default_context(conn, Some(user.0));
+  let mut context = ctx.0;
   context.add("page", &this_page);
   context.add("content", &content);
   context.add("versions", &versions);
@@ -66,13 +65,13 @@ fn get_page(page: i32, content_id: Option<i32>, user: Admin, conn: DB) -> Templa
 }
 
 #[get("/admin/page/<page>/<content_id>")]
-pub fn get_page_with_content(page: i32, content_id: i32, user: Admin, conn: DB) -> Template {
-  get_page(page, Some(content_id), user, conn)
+pub fn get_page_with_content(page: i32, content_id: i32, _user: Admin, conn: DB, ctx: DefaultContext) -> Template {
+  get_page(page, Some(content_id), conn, ctx)
 }
 
 #[get("/admin/page/<page>")]
-pub fn get_page_no_content(page: i32, user: Admin, conn: DB) -> Template {
-  get_page(page, None, user, conn)
+pub fn get_page_no_content(page: i32, _user: Admin, conn: DB, ctx: DefaultContext) -> Template {
+  get_page(page, None, conn, ctx)
 }
 
 #[post("/admin/page", data = "<form>")]

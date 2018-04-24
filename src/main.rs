@@ -21,9 +21,8 @@ extern crate rand;
 
 use rocket_contrib::Template;
 use rocket::{Route, Request};
-use rocket::response::NamedFile;
+use rocket::fairing::{AdHoc};
 
-use std::path::{Path, PathBuf};
 use std::io::stdout;
 
 mod db;
@@ -45,16 +44,6 @@ fn not_found(req: &Request) -> Template {
   Template::render("404", &map)
 }
 
-#[get("/<file..>")]
-fn files(file: PathBuf) -> Option<NamedFile> {
-  NamedFile::open(Path::new("static/").join(file)).ok()
-}
-
-#[get("/<file..>")]
-fn images(file: PathBuf) -> Option<NamedFile> {
-  NamedFile::open(Path::new("images/").join(file)).ok()
-}
-
 pub fn routes() -> Vec<Route> {
   routes![
     // Public routes
@@ -67,6 +56,12 @@ pub fn routes() -> Vec<Route> {
     , new_content, remove_page, restore_page, edit_page
     , upload_image
   ]
+}
+
+#[derive(Debug)]
+pub struct Config {
+  // pub analytics: &'static str
+  pub analytics: String
 }
 
 fn rocket() -> rocket::Rocket {
@@ -85,6 +80,11 @@ fn rocket() -> rocket::Rocket {
     }))
     .manage(conn)
     .catch(catchers![not_found])
+    .attach(AdHoc::on_attach(|r| {
+      let id = r.config().get_str("analytics").unwrap_or("").to_string();
+      let cfg = Config { analytics: id };
+      Ok(r.manage(cfg))
+    }))
 }
 
 fn main() {
@@ -96,25 +96,26 @@ mod test {
   use super::rocket;
   use rocket::local::Client;
   use rocket::http::Status;
+  use handlers::*;
 
   #[test]
   fn smoke_test() {
     let client = Client::new(rocket()).unwrap();
 
     // public root
-    let mut response = client.get("/").dispatch();
+    let mut response = client.get(uri!(index)).dispatch();
     assert_eq!(response.status(), Status::Ok);
 
     // admin root
-    response = client.get("/admin").dispatch();
+    response = client.get(uri!(admin)).dispatch();
     assert_eq!(response.status(), Status::SeeOther);
 
     // static file style
-    response = client.get("/files/css/style.css").dispatch();
+    response = client.get(uri!(files: "files/css/style.css")).dispatch();
     assert_eq!(response.status(), Status::Ok);
 
     // static file style not found
-    response = client.get("/files/css/style2.css").dispatch();
+    response = client.get(uri!(files: "files/css/style2.css")).dispatch();
     assert_eq!(response.status(), Status::NotFound);
   }
 }

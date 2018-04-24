@@ -4,6 +4,7 @@ pub mod user;
 pub mod post;
 pub mod page;
 pub mod image;
+pub mod files;
 
 pub use self::index::*;
 pub use self::admin::*;
@@ -11,3 +12,4 @@ pub use self::user::*;
 pub use self::post::*;
 pub use self::page::*;
 pub use self::image::*;
+pub use self::files::*;

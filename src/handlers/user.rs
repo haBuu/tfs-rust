@@ -16,22 +16,22 @@ use handlers::admin::SuperAdmin;
 use helpers::*;
 
 #[get("/admin/users")]
-pub fn get_users(user: SuperAdmin, conn: DB) -> Template {
+pub fn get_users(_user: SuperAdmin, conn: DB, ctx: DefaultContext) -> Template {
   let users = users::table
     .load::<User>(&*conn)
     .unwrap_or(vec![]);
-  let mut context = default_context(conn, Some(user.0));
+  let mut context = ctx.0;
   context.add("users", &users);
   Template::render("users", &context)
 }
 
 #[get("/admin/user/<user_id>")]
-pub fn get_user(user_id: i32, user: SuperAdmin, conn: DB) -> Template {
+pub fn get_user(user_id: i32, _user: SuperAdmin, conn: DB, ctx: DefaultContext) -> Template {
   let user_edit = users::table
     .find(user_id)
     .first::<User>(&*conn)
     .expect("Error finding user");
-  let mut context = default_context(conn, Some(user.0));
+  let mut context = ctx.0;
   context.add("user_edit", &user_edit);
   Template::render("user", &context)
 }

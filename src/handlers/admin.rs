@@ -1,10 +1,8 @@
-use rocket::{State, Outcome};
 use rocket::request::{self, Form, FromRequest, Request};
 use rocket_contrib::Template;
-use rocket::http::{Cookie, Cookies, Status};
+use rocket::http::{Cookie, Cookies};
 use rocket::response::Redirect;
 use rocket::outcome::IntoOutcome;
-use rocket::outcome::Outcome::*;
 
 use diesel::prelude::*;
 
@@ -14,9 +12,7 @@ use models::User;
 use schema::users::dsl::users;
 use helpers::*;
 
-use db::Pool;
 use db::DB;
-
 
 pub fn find_user(conn: DB, id: i32) -> Option<User> {
   users.find(id).first::<User>(&*conn).ok()
@@ -70,9 +66,8 @@ impl<'a, 'r> FromRequest<'a, 'r> for SuperAdmin {
 }
 
 #[get("/admin")]
-pub fn admin(user: Admin, conn: DB) -> Template {
-  let context = default_context(conn, Some(user.0));
-  Template::render("admin", &context)
+pub fn admin(_user: Admin, ctx: DefaultContext) -> Template {
+  Template::render("admin", &ctx.0)
 }
 
 #[get("/admin", rank = 2)]
@@ -87,9 +82,8 @@ pub struct UserLogin {
 }
 
 #[get("/login")]
-pub fn login(conn: DB) -> Template {
-  let context = default_context(conn, None);
-  Template::render("login", &context)
+pub fn login(ctx: DefaultContext) -> Template {
+  Template::render("login", &ctx.0)
 }
 
 #[post("/login", data = "<user_login>")]
