@@ -1,6 +1,4 @@
 use rocket::request::{self, Request, FromRequest};
-use rocket::outcome::Outcome::*;
-use rocket::http::Status;
 use rocket::Data;
 use rocket::outcome::IntoOutcome;
 
