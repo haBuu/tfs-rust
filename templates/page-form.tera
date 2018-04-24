@@ -4,6 +4,10 @@
     <input type="text" name="name" class="form-control" id="name" placeholder="Nimi" {% if page %}value="{{ page.name }}"{% endif %} required>
   </div>
   <div class="form-group">
+    <label class="control-label">Navigointi</label>
+    <input type="text" name="nav_name" class="form-control" id="nav_name" placeholder="Navigointi" {% if page %}value="{{ page.nav_name }}"{% endif %} required>
+  </div>
+  <div class="form-group">
     <label for="rank">Järjestys</label>
     <input type="number" class="form-control" id="rank" name="rank" placeholder="Järjestys" value="{% if page %}{{ page.rank }}{% else %}0{% endif %}" required>
   </div>

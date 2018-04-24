@@ -17,6 +17,7 @@ use helpers::*;
 #[table_name = "pages"]
 pub struct PageForm {
   name: String,
+  nav_name: String,
   top_level: bool,
   rank: i32,
 }
@@ -81,6 +82,7 @@ pub fn new_page(user: Admin, conn: DB, form: Form<PageForm>) -> Redirect {
   insert_into(pages)
     .values((
       name.eq(&page_form.name),
+      nav_name.eq(&page_form.nav_name),
       user_id.eq(user.0.id),
       top_level.eq(&page_form.top_level),
       rank.eq(&page_form.rank),

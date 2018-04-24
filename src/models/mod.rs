@@ -10,6 +10,7 @@ use schema::{posts, pages, users, contents};
 pub struct Page {
   pub id: i32,
   pub name: String,
+  pub nav_name: String,
   pub user_id: i32,
   pub rank: i32,
   pub top_level: bool,

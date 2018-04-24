@@ -36,7 +36,7 @@
     <div class="collapse navbar-collapse justify-content-md-center" id="navbar">
       <div class="navbar-nav">
         {% for page in top_level_pages %}
-          <a class="nav-item nav-link" href=/{{ page.name | lower }}>{{ page.name }}</a>
+          <a class="nav-item nav-link" href=/{{ page.nav_name | lower }}>{{ page.name }}</a>
         {% endfor %}
         {% if user.admin or user.superadmin %}
           <a class="nav-item nav-link" href="/admin">Hallinta</a>

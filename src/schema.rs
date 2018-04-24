@@ -14,6 +14,7 @@ table! {
     pages (id) {
         id -> Integer,
         name -> Varchar,
+        nav_name -> Varchar,
         user_id -> Integer,
         rank -> Integer,
         top_level -> Bool,

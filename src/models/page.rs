@@ -34,7 +34,8 @@ pub fn get_removed_pages(conn: &MysqlConnection) -> Vec<Page> {
 
 pub fn get_page_content_by_name(conn: &MysqlConnection, page_name: String) -> Option<Content> {
   pages
-    .filter(name.eq(page_name))
+    .filter(removed.eq(false))
+    .filter(nav_name.eq(page_name))
     .first::<Page>(conn)
     .and_then(|page| {
       contents
