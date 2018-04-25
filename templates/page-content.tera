@@ -6,7 +6,7 @@
 
     <div class="row">
 
-      <div class="col">
+      <div class="col-sm">
         <form method="post" action="/admin/page/content/{{ page.id }}">
           <div class="form-group">
             <textarea class="form-control" id="markdown" name="content" rows=20 required oninput="this.editor.update()">{% if content %} {{ content.content }} {% endif %}</textarea>
@@ -20,7 +20,7 @@
         </form>
       </div>
 
-      <div class="col">
+      <div class="col-sm">
         {% include "markdown-preview" %}
       </div>
 
