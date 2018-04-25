@@ -2,19 +2,23 @@
   <div class="form-group">
     <label class="control-label">Nimi</label>
     <input type="text" name="name" class="form-control" id="name" placeholder="Nimi" {% if page %}value="{{ page.name }}"{% endif %} required>
+    <small class="form-text text-muted">Tämä teksti näkyy yläpalkissa, jos sivu on merkattu pääsivuksi</small>
   </div>
   <div class="form-group">
-    <label class="control-label">Navigointi</label>
-    <input type="text" name="nav_name" class="form-control" id="nav_name" placeholder="Navigointi" {% if page %}value="{{ page.nav_name }}"{% endif %} required>
+    <label class="control-label">Osoite</label>
+    <input type="text" name="nav_name" class="form-control" id="nav_name" placeholder="Osoite" {% if page %}value="{{ page.nav_name }}"{% endif %} required>
+    <small class="form-text text-muted">Jos laitat tähän esimerkiksi <i>radat</i> tulee sivun osoitteeksi <i>www.tfs.fi/radat</i></small>
   </div>
   <div class="form-group">
     <label for="rank">Järjestys</label>
     <input type="number" class="form-control" id="rank" name="rank" placeholder="Järjestys" value="{% if page %}{{ page.rank }}{% else %}0{% endif %}" required>
+    <small class="form-text text-muted">Sivujen järjestys yläpalkissa</small>
   </div>
   <div class="custom-control custom-checkbox">
     <input type="checkbox" class="custom-control-input" id="top_level" name="top_level" {% if page.top_level %}checked{% endif %}>
     <label class="custom-control-label" for="top_level">Pääsivu</label>
   </div>
+  <small class="form-text text-muted">Pääsivut tulevat näkyviin yläpalkkiin</small>
   <div class="form-group mt-3">
     <input type=submit class="btn btn-light btn-block" value="Tallenna">
   </div>
